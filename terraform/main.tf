@@ -2,6 +2,9 @@
 # iMeetPro Infrastructure - Main Configuration
 # ============================================================================
 
+# Get AWS Account ID
+data "aws_caller_identity" "current" {}
+
 # ============================================================================
 # Module 1: VPC
 # ============================================================================
@@ -97,6 +100,18 @@ module "elasticache" {
 }
 
 # ============================================================================
+# Module 8: S3 Storage
+# ============================================================================
+
+module "s3" {
+  source = "./modules/s3"
+
+  project_name = var.project_name
+  environment  = var.environment
+  account_id   = data.aws_caller_identity.current.account_id
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -151,4 +166,8 @@ output "rds_database_name" {
 
 output "redis_endpoint" {
   value = module.elasticache.primary_endpoint
+}
+
+output "s3_bucket_name" {
+  value = module.s3.bucket_name
 }
