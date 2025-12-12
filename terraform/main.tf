@@ -43,6 +43,31 @@ module "jenkins" {
 }
 
 # ============================================================================
+# Module 4: ECR Repositories
+# ============================================================================
+
+module "ecr" {
+  source = "./modules/ecr"
+
+  project_name = var.project_name
+  environment  = var.environment
+}
+
+# ============================================================================
+# Module 5: EKS Cluster
+# ============================================================================
+
+module "eks" {
+  source = "./modules/eks"
+
+  project_name       = var.project_name
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  eks_nodes_sg_id    = module.security_groups.eks_nodes_sg_id
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -58,26 +83,6 @@ output "private_subnet_ids" {
   value = module.vpc.private_subnet_ids
 }
 
-output "jenkins_sg_id" {
-  value = module.security_groups.jenkins_sg_id
-}
-
-output "alb_sg_id" {
-  value = module.security_groups.alb_sg_id
-}
-
-output "eks_nodes_sg_id" {
-  value = module.security_groups.eks_nodes_sg_id
-}
-
-output "rds_sg_id" {
-  value = module.security_groups.rds_sg_id
-}
-
-output "redis_sg_id" {
-  value = module.security_groups.redis_sg_id
-}
-
 output "jenkins_public_ip" {
   value = module.jenkins.public_ip
 }
@@ -89,4 +94,20 @@ output "jenkins_url" {
 output "jenkins_private_key" {
   value     = module.jenkins.private_key_pem
   sensitive = true
+}
+
+output "ecr_frontend_url" {
+  value = module.ecr.frontend_repository_url
+}
+
+output "ecr_backend_url" {
+  value = module.ecr.backend_repository_url
+}
+
+output "eks_cluster_name" {
+  value = module.eks.cluster_name
+}
+
+output "eks_cluster_endpoint" {
+  value = module.eks.cluster_endpoint
 }
