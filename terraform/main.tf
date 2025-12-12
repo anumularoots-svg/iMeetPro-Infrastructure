@@ -112,6 +112,18 @@ module "s3" {
 }
 
 # ============================================================================
+# Module 9: ACM SSL Certificate
+# ============================================================================
+
+module "acm" {
+  source = "./modules/acm"
+
+  project_name = var.project_name
+  environment  = var.environment
+  domain_name  = var.domain_name
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -170,4 +182,12 @@ output "redis_endpoint" {
 
 output "s3_bucket_name" {
   value = module.s3.bucket_name
+}
+
+output "acm_certificate_arn" {
+  value = module.acm.certificate_arn
+}
+
+output "acm_domain_validation" {
+  value = module.acm.domain_validation_options
 }

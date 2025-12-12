@@ -35,3 +35,13 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+# ============================================================================
+# Domain Variables
+# ============================================================================
+
+variable "domain_name" {
+  description = "Domain name for SSL certificate"
+  type        = string
+  default     = "lancieretech.imeetpro.com"
+}
