@@ -83,6 +83,20 @@ module "rds" {
 }
 
 # ============================================================================
+# Module 7: ElastiCache Redis
+# ============================================================================
+
+module "elasticache" {
+  source = "./modules/elasticache"
+
+  project_name       = var.project_name
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  redis_sg_id        = module.security_groups.redis_sg_id
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -133,4 +147,8 @@ output "rds_endpoint" {
 
 output "rds_database_name" {
   value = module.rds.database_name
+}
+
+output "redis_endpoint" {
+  value = module.elasticache.primary_endpoint
 }
