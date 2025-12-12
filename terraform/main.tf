@@ -68,6 +68,21 @@ module "eks" {
 }
 
 # ============================================================================
+# Module 6: RDS MySQL
+# ============================================================================
+
+module "rds" {
+  source = "./modules/rds"
+
+  project_name       = var.project_name
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  rds_sg_id          = module.security_groups.rds_sg_id
+  db_password        = var.db_password
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -110,4 +125,12 @@ output "eks_cluster_name" {
 
 output "eks_cluster_endpoint" {
   value = module.eks.cluster_endpoint
+}
+
+output "rds_endpoint" {
+  value = module.rds.endpoint
+}
+
+output "rds_database_name" {
+  value = module.rds.database_name
 }
