@@ -124,6 +124,21 @@ module "acm" {
 }
 
 # ============================================================================
+# Module 10: ALB Load Balancer
+# ============================================================================
+
+module "alb" {
+  source = "./modules/alb"
+
+  project_name      = var.project_name
+  environment       = var.environment
+  vpc_id            = module.vpc.vpc_id
+  public_subnet_ids = module.vpc.public_subnet_ids
+  alb_sg_id         = module.security_groups.alb_sg_id
+  certificate_arn   = module.acm.certificate_arn
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -188,6 +203,6 @@ output "acm_certificate_arn" {
   value = module.acm.certificate_arn
 }
 
-output "acm_domain_validation" {
-  value = module.acm.domain_validation_options
+output "alb_dns_name" {
+  value = module.alb.alb_dns_name
 }

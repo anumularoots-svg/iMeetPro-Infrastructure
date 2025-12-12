@@ -26,22 +26,14 @@ variable "vpc_cidr" {
   default     = "10.0.0.0/16"
 }
 
-# ============================================================================
-# RDS Variables
-# ============================================================================
-
 variable "db_password" {
   description = "Database master password"
   type        = string
   sensitive   = true
 }
 
-# ============================================================================
-# Domain Variables
-# ============================================================================
-
 variable "domain_name" {
   description = "Domain name for SSL certificate"
   type        = string
-  default     = "lancieretech.imeetpro.com"
+  default     = "imeetpro.lancieretech.com"
 }
