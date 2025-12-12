@@ -28,6 +28,21 @@ module "security_groups" {
 }
 
 # ============================================================================
+# Module 3: Jenkins EC2
+# ============================================================================
+
+module "jenkins" {
+  source = "./modules/jenkins"
+
+  project_name      = var.project_name
+  environment       = var.environment
+  vpc_id            = module.vpc.vpc_id
+  subnet_id         = module.vpc.public_subnet_ids[0]
+  security_group_id = module.security_groups.jenkins_sg_id
+  instance_type     = "t3.medium"
+}
+
+# ============================================================================
 # Outputs
 # ============================================================================
 
@@ -61,4 +76,17 @@ output "rds_sg_id" {
 
 output "redis_sg_id" {
   value = module.security_groups.redis_sg_id
+}
+
+output "jenkins_public_ip" {
+  value = module.jenkins.public_ip
+}
+
+output "jenkins_url" {
+  value = module.jenkins.jenkins_url
+}
+
+output "jenkins_private_key" {
+  value     = module.jenkins.private_key_pem
+  sensitive = true
 }
