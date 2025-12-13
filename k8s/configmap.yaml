@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: imeetpro-config
+  namespace: imeetpro-prod
+data:
+  # Database
+  DB_HOST: "imeetpro-mysql-prod.c4h2ca6qm0ed.us-east-1.rds.amazonaws.com"
+  DB_PORT: "3306"
+  DB_NAME: "imeetpro_db"
+  
+  # Redis
+  REDIS_HOST: "imeetpro-redis-prod.8jz8vx.ng.0001.use1.cache.amazonaws.com"
+  REDIS_PORT: "6379"
+  
+  # S3
+  S3_BUCKET: "imeetpro-media-prod-664418964913"
+  AWS_REGION: "us-east-1"
+  
+  # Application
+  ENVIRONMENT: "production"
+  DEBUG: "False"
+  ALLOWED_HOSTS: "imeetpro.lancieretech.com,imeetpro-alb-prod-1117706473.us-east-1.elb.amazonaws.com"
